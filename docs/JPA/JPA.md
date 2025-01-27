@@ -1,3 +1,9 @@
+---
+title: "JPA"
+description: "JPA 기본내용"
+tag: ["JPA","영속성 컨텍스트","연관관계"]
+sidebar_position: 1
+---
 ***
 ## 1. JPA란
 ***
