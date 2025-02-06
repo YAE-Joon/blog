@@ -1,0 +1,234 @@
+- S3 는 수백만~수십억 개의 객체를 일상정으로 저장하면서 확장성, 내구성, 낮은 비용, 보안, 스토리지 옵션 등 S3의 다양한 이점을 활용가능
+- 이러한 수많은 객체를 관리하기 위한 기능을 S3 Batch Operation 이라고 한다.
+***
+### 1. 인벤토리 보고서 
+
+- S3 버킷 내의 모든 객체 목록과 메타데이터를 포함하는 보고서
+- 일별, 또는 주별 버킷 인벤토리를 실행할 때마다 생성. 
+- 보고서는 버킷의 모든 객체를 포함하도록 구성 또는 설정에 따라 일부 정보만 보여주도록 구성
+- CSV, ORC, Parquet 형식으로 생성가능
+- 포함되는 메타데이터 필드
+	- 필수 필드: 
+		- Bucket name 
+		- Object key 
+		- Size 
+		- Last modified date 
+	- 선택적 필드: 
+		- ETag 
+		- Storage class 
+		- Encryption status 
+		- Replication status 
+		- Object lock retention 
+		- Object version ID
+		- Object ACL status 
+		- Multipart upload flag
+- 설정방법
+	- 
+```yaml 
+인벤토리 설정:
+		  대상 버킷: [소스 버킷 이름]
+		  보고서 저장 위치: [대상 버킷 경로]
+		  빈도: [매일/매주]
+		  포맷: [CSV/ORC/Parquet]
+		  상태: [활성화/비활성화]
+		  필드 선택:
+		    - [위의 메타데이터 필드들 중 선택]
+		  옵션 설정:
+		    - 버전 관리된 객체 포함
+		    - 접두사 필터링
+
+```
+- 출력 예시
+```csv
+# CSV 형식
+bucket,key,size,last_modified_date,storage_class
+example-bucket,photos/2024/01/image1.jpg,1048576,2024-01-31T10:00:00Z,STANDARD
+example-bucket,documents/report.pdf,2097152,2024-01-30T15:30:00Z,STANDARD_IA
+```
+- 이를 이용해 인벤토리 보고서를 활용도 가능하다.
+```kotlin
+class S3InventoryProcessor {
+	// 인벤토리 보고서 읽기 
+	fun readInventoryReport(reportPath: String): List<S3Object> {
+		return when(val format = getReportFormat(reportPath)) {
+			Format.CSV -> processCsvReport(reportPath)
+			Format.ORC -> processOrcReport(reportPath)
+			Format.PARQUET -> processParquetReport(reportPath)
+			// else 절 추가 또는 모든 Format enum 값 처리 필요
+			else -> throw IllegalArgumentException("지원되지 않는 형식: $format")
+		}
+	}
+}
+```
+***
+## 2. Manifest 
+
+- 배치 작업에서 처리할 객체를 식별하는 목록을 지정하는 파일(인벤토리 보고서 또는 CSV 형식의 파일)
+	- CSV 또는 JSON 형식으로 작성
+	- S3에 저장되어야 한다.
+	
+- Manifest  형식
+```CSV
+# CSV 형식 예시
+Bucket,Key
+example-bucket,photos/photo1.jpg
+example-bucket,documents/doc1.pdf
+```
+- JSON 형식 예시
+```Json
+{
+  "Bucket": "example-bucket",
+  "Key": "photos/photo1.jpg"
+}
+```
+- 생성 방법
+	- S3 인벤토리 사용
+	```yaml
+	S3 Inventory 설정:
+	  Output format: CSV
+	  Fields:
+	    - Bucket
+	    - Key
+	    - Size
+	    - LastModifiedDate
+	  Destination: s3://inventory-bucket/
+```
+	- 직접 생성 
+```kotlin
+fun createManifest(filesToProcess: List<S3Object>): String {
+    return buildString {
+        appendLine("Bucket,Key")
+        filesToProcess.forEach { file ->
+            appendLine("${file.bucket},${file.key}")
+        }
+    }
+}
+```
+- Manifest  사용예시
+	- 파일 크기 제한 확인
+	- 객체 수 제한 확인
+	- 에러 처리를 위한 보고서 설정
+	- Manifest  파일의 버전 관리
+	- 보안을 위한 암호화 설정
+***
+## 3. Batch Action과 Task
+
+- S3 Batch Operations 작업을 생성하는 4가지 방법이 있다.
+	 1. **S3 콘솔 사용**
+		- AWS의 웹 인터페이스를 통해 직접 배치 작업 생성
+		- 가장 직관적이고 사용하기 쉬운 방법
+		- 작은 규모의 작업이나 테스트에 적합
+		
+	2. **AWS CLI 사용**
+		- 명령줄 인터페이스를 통해 배치 작업 생성
+		- 스크립트 자동화 가능
+		- 반복적인 작업에 효율적
+		
+	3. **AWS SDK for Java 사용**		
+		- Java 코드를 통해 프로그래밍 방식으로 작업 생성
+		- 애플리케이션에 통합 가능
+		- 복잡한 로직 구현 가능
+		
+	4. **REST API 사용**	
+		- HTTP 요청을 통해 직접 API 호출
+		- 언어에 구애받지 않는 방식
+		- CreateJob API를 통해 구현
+		
+- batch Action -> manifest 의 객체들 -> 개별 Task 생성
+- ex)
+	-  DELETE 배치 액션 선택 
+	-  매니페스트에 3개 객체가 있다면 
+	- 3개의 개별 DELETE 태스크가 생성됨
+	매니페스트: 
+	- object1.jpg 
+	- object2.jpg 
+	- object3.jpg 
+	생성되는 태스크: 
+	 ✓ Task1: DELETE object1.jpg 
+	 ✓ Task2: DELETE object2.jpg 
+	 ✓ Task3: DELETE object3.jpg
+ - Task 처리 방식
+ ```kotlin
+class BatchTask(
+	val taskId: String,          // 태스크 고유 식별자
+	val objectKey: String,        // 대상 객체
+	val action: BatchAction,      // 수행할 작업
+	val status: TaskStatus = TaskStatus.PENDING,  // 기본값으로 PENDING 설정
+	val result: TaskResult? = null  // nullable로 기본값 null 설정
+) {
+	// 필요한 경우 추가 로직이나 초기화 블록 작성 가능
+}
+
+enum class TaskStatus {
+	PENDING,        // 대기 중
+	IN_PROGRESS,    // 실행 중
+	COMPLETED,      // 완료
+	FAILED          // 실패
+}
+```
+- batch action 생성 -> Manifest 읽기 -> 객체별 Task 생성 -> Task 병렬 실행 -> 결과 집계 및 보고
+- Task 모니터링 
+```Json
+{
+    "jobId": "job123",
+    "tasksCompleted": 50,
+    "tasksFailed": 2,
+    "tasksSucceeded": 48,
+    "taskProgress": {
+        "numberOfTasksInProgress": 10,
+        "numberOfTasksRemaining": 40
+    }
+}
+```
+- 각 Task는 독립적으로 실행된다. 하나의 Task 실패가 다른 Task 에 영향을 주지 않기 때문에 대규모 작업의 안정성과 신뢰를 보장함.
+***
+## 4. S3에서의 IAM(Identity and Access Management)
+
+- AWS 서비스에서 사용자에게 임시로 권한을 부여하는 자격 증명이다. S3 파일 업로드 및 접근에서도 사용할 수 있지만 이때는 주로 Presigned URL을 사용한다.
+- S3 Batch 작업에서의 IAM의 역할
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::source-bucket/*",
+                "arn:aws:s3:::destination-bucket/*"
+            ]
+        }
+    ]
+}
+```
+***
+## 5. S3 Control Client
+ 
+ - S3 Client (S3Client)
+	- 일반적인 S3 작업 수행
+	    - 객체 업로드/다운로드
+	    - 버킷 생성/삭제
+	    - 객체 메타데이터 관리
+	- 개별 객체나 버킷 단위의 작업
+
+-  S3 Control Client (S3ControlClient)
+	- 대규모 S3 작업 관리
+	    - 배치 작업(Batch Operations) 생성/관리
+	    - 다수의 객체에 대한 일괄 작업
+	    - 액세스 포인트 관리
+	- 계정 수준의 S3 설정
+	- 대규모 데이터 처리 작업
+- 예시
+```kotlin
+// 일반 S3 작업
+val s3Client = S3Client.builder().build()
+s3Client.putObject()  // 단일 객체 업로드
+
+// 배치 작업
+val s3ControlClient = S3ControlClient.builder().build()
+s3ControlClient.createJob()  // 배치 작업 생성
+```
