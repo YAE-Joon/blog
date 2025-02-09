@@ -5,20 +5,20 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: '숲 속 개발일지',
+  tagline: '공부 블로그',
+  favicon: 'img/bird.png',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://yjblog.vercel.app/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'https://github.com/YAE-Joon', // Usually your GitHub org/user name.
+  projectName: 'blog', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -37,10 +37,10 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
+          routeBasePath: 'docs',
+          path: 'docs',
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/YAE-Joon/blog',
         },
         blog: {
           showReadingTime: true,
@@ -51,7 +51,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/YAE-Joon/blog',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -63,26 +63,49 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'project',
+        path: 'project',
+        routeBasePath: 'project',
+        sidebarPath: './sidebars.ts',
+        editUrl: 'https://github.com/YAE-Joon/blog',
+        includeCurrentVersion: true,
+        sidebarCollapsible: true,
+        sidebarCollapsed: false,
+      },
+    ],
+  ],
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'icon.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'YJ\'',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Logo',
+        src: 'img/bird.png',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: '공부일지',
+
+        },{
+          type: 'docSidebar',
+          sidebarId: 'projectSidebar',
+          docsPluginId: 'project',
+          position: 'left',
+          label: 'Project',
+
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/YAE-Joon/blog',
           label: 'GitHub',
           position: 'right',
         },
@@ -92,28 +115,28 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '내 블로그',
           items: [
             {
-              label: 'Tutorial',
+              label: '공부일지',
               to: '/docs/intro',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Info',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Resume',
+              href: 'https://elice.works/shared-resume/account/6521/publicUuid/42208529-cb6b-4b8d-925e-3be3ea4be8cc',
             },
             {
               label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              href: 'https://www.discord.com/users/808690565007802448',
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'Kakao',
+              href: 'http://qr.kakao.com/talk/aZek.L_29yVBcXbO5Op0Y3VEDtQ-',
             },
           ],
         },
@@ -121,21 +144,21 @@ const config: Config = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
+              href: 'https://github.com/Yae-joon',
+            },{
+              label: 'Notion',
+              href: 'https://www.notion.so/19247fcc4aaa8041a8b9c17584201e97',
+            }
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} YJ'blog`,
     },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['java', 'kotlin', 'bash', 'yaml'],
     },
   } satisfies Preset.ThemeConfig,
 };

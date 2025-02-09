@@ -1,4 +1,4 @@
 ---
 title: "AWS"
-sidebar_position: 5
+sidebar_position: 6
 ---

@@ -10,32 +10,36 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: '무엇을 다루나요? 🔍',
+    Svg: require('@site/static/img/left icon.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        - 💡 Java, Spring Boot 개발 경험<br/>
+        - 🌐 웹 개발 기술과 트렌드<br/>
+        - 📚 학습한 기술들의 깊이 있는 이해<br/>
+        - 🚀 개인 프로젝트와 코딩 경험 공유<br/>
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: '안녕하세요! 제 블로그에 오신 것을 환영합니다. 🙌',
+    Svg: require('@site/static/img/center icon.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        개발의 세계는 끊임없이 변화하는 넓은 숲과 같습니다.<br/>
+        여기서 제 학습 여정과 성장의 이야기를 나누고자 합니다.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: '블로그의 목표 🎯',
+    Svg: require('@site/static/img/right icon.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        - 꾸준히 성장하는 개발자의 모습 기록<br/>
+        - 제 경험을 통해 다른 개발자들에게 인사이트 제공<br/>
+        - 기술적 도전과 학습의 과정 공유
+
       </>
     ),
   },
