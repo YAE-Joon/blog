@@ -6,26 +6,27 @@ sidebar_position: 2
 ---
 
 ## BookStory
-#### 도서 쇼핑 시스템
+### 도서 쇼핑 시스템
 ***
 ## 📝 프로젝트 개요
 
 - 프로젝트명: 온라인 도서 쇼핑몰
-- 개발 기간: 2024/3/25 ~ 2024/4/19 (4주)
+- 개발 기간: 2024/3 ~ 2024/4
 - 담당 역할:
   - ERD 설계
   - 카테고리 시스템 설계 및 구현
 - 개발 환경: Spring Boot, JPA, Java
 - 목표: 계층형 카테고리 시스템을 통한 효율적인 도서 분류 및 관리
 - **GitHub:** [**🔗 Repository**](https://github.com/YAE-Joon/bookstory)
+
 *** 
 
 ## 🛠 기술 스택
 
 #### Backend
 
-- Language & Framework: Java 17, Spring Boot 3.2.4
-- Data Access: JPA/Hibernate, QueryDSL 5.0.0
+- Language & Framework: Spring Boot 
+- ORM: JPA, QueryDSL 
 - Security: Spring Security, OAuth2, JWT
 - Database: MySQL
 
