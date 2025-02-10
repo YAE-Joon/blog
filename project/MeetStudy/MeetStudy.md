@@ -75,7 +75,6 @@ public class ChatRoom {
 
 #### 2. 실시간 메시지 처리
 ![message.jpeg](images/message.jpeg)
-
 ```java
 @Service
 public class MessageService {

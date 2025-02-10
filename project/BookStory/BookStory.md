@@ -2,7 +2,7 @@
 title: "BookStory"
 description: "BookStory 프로젝트 정리"
 tag: ["BookStory"]
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 ## BookStory
