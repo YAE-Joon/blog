@@ -30,7 +30,19 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css',
+      type: 'text/css',
+      integrity: 'sha384-...',  // 권장: integrity 해시 추가
+      crossorigin: 'anonymous',
+    },
+  ],
   presets: [
     [
       'classic',
@@ -41,6 +53,12 @@ const config: Config = {
           path: 'docs',
           editUrl:
             'https://github.com/YAE-Joon/blog',
+          remarkPlugins: [
+            [require('remark-math'), { strict: false }]
+          ],
+          rehypePlugins: [
+            [require('rehype-katex'), { strict: false }]
+          ],
         },
         blog: {
           showReadingTime: true,
@@ -57,6 +75,7 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
         },
+
         theme: {
           customCss: './src/css/custom.css',
         },
