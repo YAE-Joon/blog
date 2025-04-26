@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MeetStudy.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="%ED%95%99%EC%8A%B5-%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0-%ED%94%8C%EB%9E%AB%ED%8F%BC-meetstudy">학습 커뮤니티 플랫폼 MeetStudy</h2>
+<h3 id="%EC%8B%A4%EC%8B%9C%EA%B0%84-%EC%B1%84%ED%8C%85-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84">실시간 채팅 기능 구현</h3>
+<hr>
+<h2 id="%F0%9F%93%9D-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94">📝 프로젝트 개요</h2>
+<ul>
+<li>프로젝트명: MeetStudy (학습 커뮤니티 플랫폼)</li>
+<li>개발 기간: 2024.05 ~ 2024.06</li>
+<li>인원 구성: Backend 6명, Frontend 2명 (총 8명)</li>
+<li>담당 역할: 실시간 채팅 시스템 설계 및 구현</li>
+<li><strong>시연영상</strong> <a href="https://docs.google.com/file/d/1KyIKEYIsjfmbQS9R3tXC2fcz0CPK0pnS/preview?pli=1"><strong>🔗시연</strong></a></li>
+<li><strong>GitHub:</strong> <a href="https://github.com/YAE-Joon/meetstudy"><strong>🔗 Repository</strong></a></li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9B%A0-%EA%B8%B0%EC%88%A0-%EC%8A%A4%ED%83%9D">🛠 기술 스택</h2>
+<p><img src="images/tech.png" alt="tech.png"></p>
+<h4 id="backend">Backend</h4>
+<ul>
+<li>Language &amp; Framework: Spring Boot</li>
+<li>WebSocket: STOMP</li>
+<li>Security: Spring Security, JWT</li>
+<li>Database: MariaDB</li>
+<li>ORM: JPA/Hibernate</li>
+<li>API Documentation: Swagger</li>
+</ul>
+<h4 id="frontend">Frontend</h4>
+<ul>
+<li>Language: TypeScript</li>
+<li>Framework: React</li>
+</ul>
+<h4 id="deployment">Deployment</h4>
+<ul>
+<li>Cloud: AWS</li>
+<li>Server: NginX</li>
+<li>CI/CD: Git Actions</li>
+</ul>
+<hr>
+<h2 id="%E2%9A%99%EF%B8%8F-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0">⚙️ 프로젝트 구조</h2>
+<h4 id="1-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90">1. 프로젝트 아키텍쳐</h4>
+<p><img src="images/architecture.png" alt="architecture.png"></p>
+<hr>
+<h4 id="2-%EC%B1%84%ED%8C%85-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90">2. 채팅 아키텍쳐</h4>
+<p><img src="images/chatArchitecture.png" alt="chatArchitecture.png"></p>
+<h2 id="%F0%9F%92%A1-%EC%A3%BC%EC%9A%94-%EA%B5%AC%ED%98%84-%EA%B8%B0%EB%8A%A5">💡 주요 구현 기능</h2>
+<h4 id="1-%EC%B1%84%ED%8C%85%EB%B0%A9-%EA%B4%80%EB%A6%AC-%EC%8B%9C%EC%8A%A4%ED%85%9C">1. 채팅방 관리 시스템</h4>
+<p><img src="images/chatRoom.png" alt="chatRoom.png"></p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Entity</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChatRoom</span> </span>{
+    <span class="hljs-meta">@Column</span>(name = <span class="hljs-string">"title"</span>)
+    <span class="hljs-keyword">private</span> String title;
+    
+    <span class="hljs-meta">@Column</span>(name = <span class="hljs-string">"notice"</span>)
+    <span class="hljs-keyword">private</span> String notice;
+    
+    <span class="hljs-meta">@OneToOne</span>(fetch = FetchType.LAZY)
+    <span class="hljs-keyword">private</span> User chatAdmin;
+    
+    <span class="hljs-meta">@ManyToOne</span>(fetch = FetchType.LAZY)
+    <span class="hljs-keyword">private</span> StudyRoom studyRoom;
+}
+</div></code></pre>
+<ul>
+<li>채팅방 CRUD 기능 구현</li>
+<li>공지사항 설정 및 관리 기능</li>
+<li>방장 권한 관리 시스템</li>
+<li>스터디룸별 채팅방 관리</li>
+</ul>
+<h4 id="2-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%B2%98%EB%A6%AC">2. 실시간 메시지 처리</h4>
+<p><img src="images/message.jpeg" alt="message.jpeg"></p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MessageService</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> OutputMessageModel <span class="hljs-title">sendMessage</span><span class="hljs-params">(MessageModel messageModel, Long chatRoomId, User user)</span> </span>{
+        Message message = Message.builder()
+            .chatRoom(chatRoomRepository.findChatRoomById(chatRoomId))
+            .createAt(LocalDateTime.now(ZoneId.of(<span class="hljs-string">"Asia/Seoul"</span>)))
+            .sender(user)
+            .content(messageModel.getContent())
+            .build();
+        messageRepository.save(message);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OutputMessageModel(message);
+    }
+}
+</div></code></pre>
+<ul>
+<li>WebSocket과 STOMP를 활용한 실시간 메시지 전송</li>
+<li>메시지 영속화 및 조회 기능</li>
+<li>입장/퇴장 메시지 자동 생성</li>
+<li>커서 기반 페이지네이션으로 이전 메시지 조회</li>
+</ul>
+<h4 id="3-%EB%B3%B4%EC%95%88-%EA%B8%B0%EB%8A%A5-%EA%B0%95%ED%99%94">3. 보안 기능 강화</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StompHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ChannelInterceptor</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> Message&lt;?&gt; preSend(Message&lt;?&gt; message, MessageChannel channel) {
+        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        <span class="hljs-keyword">if</span> (accessor.getCommand() == StompCommand.CONNECT) {
+            String token = extractToken(accessor);
+            validateToken(token);
+            setUserInSession(accessor);
+        }
+        <span class="hljs-keyword">return</span> message;
+    }
+}
+</div></code></pre>
+<ul>
+<li>JWT 토큰 기반의 사용자 인증</li>
+<li>WebSocket 연결 보안 강화</li>
+<li>Handler 레벨의 사용자 권한 검증</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%8E%AF-%EC%84%B1%EA%B3%BC-%EB%B0%8F-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0">🎯 성과 및 문제 해결</h2>
+<h4 id="1-%EB%A9%94%EC%84%B8%EC%A7%80-%EC%A1%B0%ED%9A%8C-%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94">1. 메세지 조회 성능 최적화</h4>
+<pre class="hljs"><code><div><span class="hljs-meta">@Query</span>(<span class="hljs-string">"SELECT m FROM Message m "</span>
+    + <span class="hljs-string">"JOIN FETCH m.sender s "</span>
+    + <span class="hljs-string">"JOIN FETCH m.chatRoom c "</span>
+    + <span class="hljs-string">"WHERE c.id = :chatRoomId "</span>
+    + <span class="hljs-string">"and m.id &lt; :cursor "</span>
+    + <span class="hljs-string">"order by m.id DESC"</span>)
+  
+</div></code></pre>
+<ul>
+<li>커서 기반 페이지네이션 구현</li>
+<li>JPA N+1 문제 해결을 위한 fetch join 적용</li>
+<li>무한 스크롤 방식 메시지 로딩 구현</li>
+</ul>
+<h4 id="2websocket-%EB%B3%B4%EC%95%88-%EA%B0%95%ED%99%94">2.WebSocket 보안 강화</h4>
+<ul>
+<li>JWT 토큰 검증 로직 구현</li>
+<li>사용자 권한 기반의 접근 제어</li>
+<li>세션 관리를 통한 보안 강화</li>
+</ul>
+<h4 id="3-%EC%B1%84%ED%8C%85%EB%B0%A9-%EA%B6%8C%ED%95%9C-%EA%B4%80%EB%A6%AC">3. 채팅방 권한 관리</h4>
+<ul>
+<li>방장 권한 부여 및 변경 기능</li>
+<li>공지사항 관리 권한 제어</li>
+<li>채팅방 생성 및 삭제 권한 관리</li>
+</ul>
+<h4 id="4-%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%ED%98%91%EC%97%85-%EA%B0%95%ED%99%94">4. 프론트엔드 협업 강화</h4>
+<ul>
+<li>STOMP 프로토콜 연동을 위한 긴밀한 협력</li>
+<li>실시간 테스트 및 디버깅 협업</li>
+<li>효율적인 커뮤니케이션 체계 구축</li>
+</ul>
+<h2 id="%F0%9F%8C%B1-%EB%B0%B0%EC%9A%B4-%EC%A0%90">🌱 배운 점</h2>
+<ul>
+<li>WebSocket과 STOMP 프로토콜에 대한 실무 경험</li>
+<li>실시간 통신 시스템의 보안 설계 방법</li>
+<li>JPA를 활용한 효율적인 데이터 접근 최적화</li>
+<li>페이지네이션을 통한 대용량 데이터 처리</li>
+<li>프론트엔드와의 효율적인 협업 방식</li>
+</ul>
+
+</body>
+</html>
